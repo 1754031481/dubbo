@@ -28,5 +28,7 @@
    <!-- dubbo端口号 -->  
    <dubbo:protocol name="dubbo" port="20881" ></dubbo:protocol>
    <dubbo:service interface="com.jk.service.UserService" ref="userServiceImpl" />  
+   <!--  积分模块的商城列表 -->
+   <dubbo:service interface="com.jk.service.FinanceService" ref="financeService" />  
 
  </beans>	

@@ -13,6 +13,11 @@ public class User implements Serializable{
 	private	String pwd;
 	private Date createtime;
 	private Date uploadtime;
+//	报表
+	private Integer age;
+	private String zhuce;
+	private String people;
+	private String sex;
 	public Integer getUserid() {
 		return userid;
 	}
@@ -43,10 +48,35 @@ public class User implements Serializable{
 	public void setUploadtime(Date uploadtime) {
 		this.uploadtime = uploadtime;
 	}
+	public Integer getAge() {
+		return age;
+	}
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+	public String getZhuce() {
+		return zhuce;
+	}
+	public void setZhuce(String zhuce) {
+		this.zhuce = zhuce;
+	}
+	public String getPeople() {
+		return people;
+	}
+	public void setPeople(String people) {
+		this.people = people;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
 	@Override
 	public String toString() {
 		return "User [userid=" + userid + ", username=" + username + ", pwd=" + pwd + ", createtime=" + createtime
-				+ ", uploadtime=" + uploadtime + "]";
+				+ ", uploadtime=" + uploadtime + ", age=" + age + ", zhuce=" + zhuce + ", people=" + people + ", sex="
+				+ sex + "]";
 	}
 	@Override
 	public int hashCode() {

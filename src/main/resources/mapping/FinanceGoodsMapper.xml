@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.dao.FinanceGoodsMapper">
+	<resultMap id="BaseResultMap" type="com.jk.model.FinanceGoods">
+		<id column="GOODSID" property="goodsid" />
+		<result column="GOODSNUM" property="goodsnum" />
+		<result column="GOODSNAME" property="goodsname" />
+		<result column="GOODSFINANCE" property="goodsfinance" />
+		<result column="GOODSMONEY" property="goodsmoney" />
+		<result column="GOODSNUMBER" property="goodsnumber" />
+		<result column="GOODSBISHU" property="goodsbishu" />
+		<result column="GOODSKUCUN" property="goodskucun" />
+		<result column="GOODSSTATE" property="goodsstate" />
+		<result column="CREATEPEOPLE" property="createpeople" />
+		<result column="CREATETIME" property="createtime" />
+		<result column="GOODSLEIBIE" property="goodsleibie" />
+		<result column="PAYMETHOD" property="paymethod" />
+		<result column="MARKETMONEY" property="marketmoney" />
+		<result column="XGSL" property="xgsl" />
+		<result column="GOODSPHOTO" property="goodsphoto" />
+		<result column="GOODSDETAILS" property="goodsdetails" />
+		<result column="UPDATETIME" property="updatetime" />
+		<result column="TYPESJ" property="typesj" />
+		<result column="APPPHOTO" property="appphoto" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		GOODSID, GOODSNUM, GOODSNAME, GOODSFINANCE, GOODSMONEY, GOODSNUMBER,
+		GOODSBISHU,
+		GOODSKUCUN, GOODSSTATE, CREATEPEOPLE, CREATETIME, GOODSLEIBIE, PAYMETHOD,
+		MARKETMONEY,
+		XGSL, GOODSPHOTO, GOODSDETAILS, UPDATETIME,TYPESJ,APPPHOTO
+	</sql>
+
+	<select id="findFinanceGoods" parameterType="java.util.HashMap"
+		resultMap="BaseResultMap">
+		select * from( select rownum rn,t.* from(select
+		<include refid="Base_Column_List"></include>
+		<!-- tti.GOODSID, tti.GOODSNUM,tti.GOODSNAME,tti.GOODSFINANCE, tti.GOODSMONEY,tti.GOODSNUMBER,tti.GOODSBISHU, 
+			tti.GOODSKUCUN,tti.GOODSSTATE,tti.GOODSLEIBIE,tti.PAYMETHOD, tti.MARKETMONEY,tti.XGSL,tti.GOODSPHOTO,tti.GOODSDETAILS, 
+			tti.UPDATETIME -->
+		from ZJB_FINANCE_GOODS
+		<where>
+			<if test="goodsname != null">
+				GOODSNAME like '%${goodsname}%'
+			</if>
+			<if test="startDate != null and startDate != '' ">
+				and CREATETIME &gt;= #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				and CREATETIME &lt;= #{endDate}
+			</if>
+			and TYPESJ='s'
+		</where>
+		ORDER BY GOODSID ASC
+		)t
+		<if test='offset != null'>
+			where rownum &lt;= #{limit}
+		</if>
+
+		)WHERE rn &gt; #{offset}
+
+	</select>
+
+	<select id="countFinanceGoods" parameterType="java.util.HashMap"
+		resultType="java.lang.Long">
+		select count(*) from ZJB_FINANCE_GOODS
+		<where>
+			<if test="goodsname != null">
+				GOODSNAME like '%${goodsname}%'
+			</if>
+			<if test="startDate != null and startDate != '' ">
+				and CREATETIME &gt;= #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				and CREATETIME &lt;= #{endDate}
+			</if>
+			and TYPESJ='s'
+		</where>
+	</select>
+
+	<insert id="addOrFinance" parameterType="com.jk.model.FinanceGoods">
+		insert into
+		ZJB_FINANCE_GOODS(GOODSID,GOODSNUM,GOODSNAME,PAYMETHOD,GOODSKUCUN,GOODSLEIBIE,MARKETMONEY,XGSL,TYPESJ,CREATEPEOPLE,CREATETIME,GOODSPHOTO,GOODSFINANCE,GOODSMONEY)
+		values(SEQ_TEST.nextval,#{goodsnum},#{goodsname},#{paymethod},#{goodskucun},#{goodsleibie},#{marketmoney},#{xgsl},#{typesj},#{createpeople},#{createtime},#{goodsphoto},#{goodsfinance},#{goodsmoney})
+	</insert>
+	<select id="updateFinanceGoods" parameterType="com.jk.model.FinanceGoods"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from ZJB_FINANCE_GOODS where GOODSID=#{goodsid}
+	</select>
+
+	<update id="updateGoods" parameterType="com.jk.model.FinanceGoods">
+		update ZJB_FINANCE_GOODS
+		set GOODSNUM=#{goodsnum},GOODSNAME=#{goodsname},PAYMETHOD=#{paymethod},
+		GOODSKUCUN=#{goodskucun},GOODSLEIBIE=#{goodsleibie},MARKETMONEY=#{marketmoney},
+		XGSL=#{xgsl},TYPESJ=#{typesj},CREATEPEOPLE=#{createpeople},UPDATETIME=#{updatetime}
+		where GOODSID=#{goodsid}
+
+
+	</update>
+
+	<select id="poiFindFinanceGoods" parameterType="com.jk.model.FinanceGoods"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from ZJB_FINANCE_GOODS
+	</select>
+	<update id="updateTypeSj" parameterType="com.jk.model.FinanceGoods">
+		UPDATE ZJB_FINANCE_GOODS SET TYPESJ ='x' where GOODSID=#{goodsid}
+	</update>
+</mapper>

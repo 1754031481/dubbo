@@ -7,7 +7,20 @@
     <result column="PWD" property="pwd"  />
     <result column="CREATETIME" property="createtime"  />
     <result column="UPLOADTIME" property="uploadtime"  />
+    <result column="AGE" property="age"  />
+    <result column="ZHUCE" property="zhuce"  />
+    <result column="PEOPLE" property="people"  />
+    <result column="SEX" property="sex"  />
   </resultMap>
+  
+  
+  <select id="userList"  parameterType="com.jk.model.User" resultType="java.util.LinkedHashMap">
+		select  count(*) Y ,PEOPLE  from  	T_USER group by PEOPLE
+  </select>
+  
+  <select id="userSex" parameterType="com.jk.model.User" resultType="java.util.LinkedHashMap">
+  		select count(*) SEXY ,SEX FROM T_USER GROUP BY SEX
+  </select>
   
   <!--  登陆-->
  <select id="loginDiMeng" parameterType="com.jk.model.User" resultMap="BaseResultMap">
